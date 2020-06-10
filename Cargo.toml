@@ -1,0 +1,12 @@
+[package]
+name = "monee"
+version = "0.0.1"
+authors = ["dantuck <gitlab@dantuck.com>"]
+edition = "2018"
+license = "GPL-3.0"
+description = "Money parser"
+keywords = ["accounting", "finance"]
+repository = "https://gitlab.com/dantuck/monee"
+readme = "README.md"
+
+[dependencies]
