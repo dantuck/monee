@@ -7,6 +7,7 @@ license = "GPL-3.0"
 description = "Money parser"
 keywords = ["accounting", "finance"]
 repository = "https://gitlab.com/dantuck/monee"
+documentation = "https://docs.rs/monee"
 readme = "README.md"
 
 [dependencies]
