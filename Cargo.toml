@@ -1,6 +1,6 @@
 [package]
 name = "monee"
-version = "0.0.1"
+version = "0.0.2"
 authors = ["dantuck <gitlab@dantuck.com>"]
 edition = "2018"
 license = "GPL-3.0"
@@ -11,3 +11,4 @@ documentation = "https://docs.rs/monee"
 readme = "README.md"
 
 [dependencies]
+lazy_static = "1.4.0"
