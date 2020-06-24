@@ -57,11 +57,15 @@ impl Money {
                 amount = amount.checked_add(num).ok_or(Error::InvalidAmount)?;
             }
 
+            if !decimal_found {
+                decimal_fill = 2;
+            }
+
             if decimal_places == 2 {
                 decimal_fill = 0;
             }
 
-            if decimal_found && decimal_fill > 0 {
+            if decimal_fill > 0 {
                 loop {
                     amount *= 10;
                     decimal_fill -= 1;
@@ -132,6 +136,9 @@ mod tests {
         let money: Money = "0.00".parse().unwrap();
         assert_eq!("0", money.to_string());
 
+        let money: Money = "111".parse().unwrap();
+        assert_eq!("$111.00", money.to_string());
+
         let money: Money = "111.0".parse().unwrap();
         assert_eq!("$111.00", money.to_string());
 
@@ -182,5 +189,17 @@ mod tests {
     fn money_format_padding() {
         let money = money!("20.00", "USD");
         assert_eq!("$ 20.00", format!("{: >1}", money));
+    }
+
+    #[test]
+    fn money_from_float() {
+        let money = money!(20, "USD");
+        assert_eq!("$ 20.00", format!("{: >1}", money));
+
+        let money = money!(20.10, "USD");
+        assert_eq!("$ 20.10", format!("{: >1}", money));
+
+        let money = money!(20.105, "USD");
+        assert_eq!("$ 20.11", format!("{: >1}", money));
     }
 }
