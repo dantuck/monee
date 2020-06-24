@@ -1,6 +1,6 @@
 [package]
 name = "monee"
-version = "0.0.3"
+version = "0.0.4"
 authors = ["dantuck <gitlab@dantuck.com>"]
 edition = "2018"
 license = "GPL-3.0"
