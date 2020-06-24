@@ -8,6 +8,7 @@ use crate::Error;
 pub struct Money {
     amount: i64,
     currency: &'static Currency,
+    is_negative: bool,
 }
 
 #[macro_export]
@@ -21,6 +22,7 @@ impl Money {
     pub fn from_string(s: String, currency: String) -> Result<Money, Error> {
         let currency = Currency::from_string(currency).unwrap_or(Currency::find("USD")?);
         let mut amount: i64 = 0;
+        let mut is_negative: bool = false;
 
         if s != "" {
             let mut decimal_found: bool = false;
@@ -28,6 +30,10 @@ impl Money {
             let mut decimal_places: u8 = 0;
             
             for char in s.chars() {
+                if char == '-' {
+                    is_negative = true;
+                    continue;
+                }
                 if char == '.' {
                     decimal_found = true;
                     continue;
@@ -77,7 +83,7 @@ impl Money {
             }
         }
 
-        Ok(Money { amount, currency })
+        Ok(Money { amount, currency, is_negative })
     }
 }
 
@@ -97,6 +103,10 @@ impl fmt::Display for Money {
             s = format!("{}", self.amount)
         } else {
             s.insert(s.len() - 2, '.');
+
+            if self.is_negative {
+                s.insert(0, '-');
+            }
 
             if self.currency.symbol != "" {
                 let fill = f.fill();
@@ -201,5 +211,14 @@ mod tests {
 
         let money = money!(20.105, "USD");
         assert_eq!("$ 20.11", format!("{: >1}", money));
+    }
+
+    #[test]
+    fn money_allow_negative() {
+        let money = money!(-20, "USD");
+        assert_eq!("$ -20.00", format!("{: >1}", money));
+
+        let money: Money = "-20".parse().unwrap();
+        assert_eq!("$-20.00", money.to_string());
     }
 }
