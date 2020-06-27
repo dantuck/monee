@@ -6,7 +6,7 @@ Rust Money parser
 [Docs]: https://docs.rs/monee/badge.svg
 [docs.rs]: https://docs.rs/monee
 [Conduct svg]: code-of-conduct.svg
-[Code of Conduct]: https://gitlab.com/dantuck/monee/-/blob/main/CODE_OF_CONDUCT.md
+[Code of Conduct]: CODE_OF_CONDUCT.md
 
 A library that handles parsing and display money.
 
