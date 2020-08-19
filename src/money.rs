@@ -28,7 +28,7 @@ impl Money {
             let mut decimal_found: bool = false;
             let mut decimal_fill: u8 = 0;
             let mut decimal_places: u8 = 0;
-            
+
             for char in s.chars() {
                 if char == '-' {
                     is_negative = true;
@@ -39,8 +39,7 @@ impl Money {
                     continue;
                 }
 
-                let num = char.to_digit(10)
-                    .ok_or(Error::InvalidAmount)? as i64;
+                let num = char.to_digit(10).ok_or(Error::InvalidAmount)? as i64;
 
                 if decimal_found {
                     decimal_fill += 1;
@@ -83,7 +82,11 @@ impl Money {
             }
         }
 
-        Ok(Money { amount, currency, is_negative })
+        Ok(Money {
+            amount,
+            currency,
+            is_negative,
+        })
     }
 }
 
@@ -104,6 +107,21 @@ impl fmt::Display for Money {
         } else {
             s.insert(s.len() - 2, '.');
 
+            let mut remainder: usize = s.len() - 3;
+            let mut position: usize = s.len() - 3;
+
+            loop {
+                if remainder <= 3 {
+                    break;
+                }
+
+                position -= 3;
+
+                s.insert(position, ',');
+
+                remainder = position;
+            }
+
             if self.is_negative {
                 s.insert(0, '-');
             }
@@ -118,6 +136,7 @@ impl fmt::Display for Money {
                 s = format!("{}{}", self.currency.symbol, s)
             }
         }
+
         write!(f, "{}", s.to_string())
     }
 }
@@ -192,7 +211,10 @@ mod tests {
         assert_eq!("$29.11", format!("{}", money));
 
         let money: Money = "11123.0154".parse().unwrap();
-        assert_eq!("$11123.02", money.to_string());
+        assert_eq!("$11,123.02", money.to_string());
+
+        let money: Money = "1112345.0154".parse().unwrap();
+        assert_eq!("$1,112,345.02", money.to_string());
     }
 
     #[test]
