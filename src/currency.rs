@@ -1,9 +1,9 @@
 mod iso;
 
-use std::fmt;
-use std::collections::HashMap;
-pub use crate::{Error};
+pub use crate::Error;
 pub use iso::Iso;
+use std::collections::HashMap;
+use std::fmt;
 
 lazy_static! {
     static ref CURRENCIES_BY_ALPHA_CODE: HashMap<String, Currency> =
@@ -52,7 +52,6 @@ impl Currency {
     }
 }
 
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -65,9 +64,6 @@ mod tests {
 
     #[test]
     fn currency_find_unknown_code_raise_invalid_currency_error() {
-        assert_eq!(
-            Currency::find("AAA").unwrap_err(),
-            Error::InvalidCurrency,
-        );
+        assert_eq!(Currency::find("AAA").unwrap_err(), Error::InvalidCurrency,);
     }
 }

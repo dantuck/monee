@@ -13,9 +13,7 @@ macro_rules! define_enum {
     }
 }
 
-define_enum!(Iso {
-    USD
-});
+define_enum!(Iso { USD });
 
 impl fmt::Display for Iso {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
